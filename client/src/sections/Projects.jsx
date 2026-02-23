@@ -127,34 +127,61 @@ export default function Projects() {
 
   return (
     <section id="projects" ref={sectionRef} className="section-padding relative overflow-hidden">
-      {/* Background */}
-      <div className="orb w-96 h-96 bg-neon-blue/10 top-0 right-0" />
-
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-3xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-neon-cyan/10 border border-neon-cyan/20 text-neon-cyan text-xs font-medium mb-4 reveal">
             <span className="w-1.5 h-1.5 rounded-full bg-neon-cyan" />
-            Proyectos
+            Proyecto destacado
           </div>
           <h2 className="section-title reveal">
             Lo que he{' '}
             <span className="gradient-text">construido</span>
           </h2>
-          <p className="section-subtitle reveal max-w-2xl mx-auto">
-            Proyectos en los que he trabajado, aplicando arquitecturas limpias y tecnologías modernas.
+          <p className="section-subtitle reveal max-w-xl mx-auto">
+            Proyecto en desarrollo activo, aplicando arquitecturas limpias y tecnologías modernas.
           </p>
         </div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((project, i) => (
-            <ProjectCard key={project.id} project={project} index={i} />
-          ))}
+        {/* Single featured card — horizontal on desktop */}
+        <div className="reveal card-glass overflow-hidden">
+          <div className="flex flex-col md:flex-row">
+            {/* Image */}
+            <div className="relative md:w-56 flex-shrink-0 h-48 md:h-auto overflow-hidden">
+              <img
+                src={projects[0].image}
+                alt={projects[0].title}
+                className="w-full h-full object-cover"
+                loading="lazy"
+              />
+              <div className={`absolute inset-0 bg-gradient-to-br ${projects[0].color} opacity-60`} />
+              {projects[0].status && (
+                <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-semibold bg-yellow-500/20 border border-yellow-400/40 text-yellow-300">
+                  {projects[0].status}
+                </div>
+              )}
+            </div>
+            {/* Content */}
+            <div className="p-6 flex flex-col justify-between flex-1">
+              <div>
+                <h3 className="text-xl font-bold text-white mb-2">{projects[0].title}</h3>
+                <p className="text-white/50 text-sm leading-relaxed mb-4">{projects[0].description}</p>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {projects[0].tech.map((t) => (
+                    <span key={t} className="tech-badge">{t}</span>
+                  ))}
+                </div>
+              </div>
+              <div className="flex gap-3 pt-4 border-t border-white/5">
+                <span className="flex-1 text-center py-2 rounded-xl text-xs font-medium border border-white/5 text-white/25 cursor-not-allowed">Repositorio privado</span>
+                <span className="flex-1 text-center py-2 rounded-xl text-xs font-medium border border-white/5 text-white/25 cursor-not-allowed">Demo próximamente</span>
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* More */}
-        <div className="text-center mt-12 reveal">
+        {/* GitHub link */}
+        <div className="text-center mt-8 reveal">
           <a
             href="https://github.com/anavitateg"
             target="_blank"

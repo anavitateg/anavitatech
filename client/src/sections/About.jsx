@@ -7,9 +7,6 @@ const skills = [
   { category: 'DevOps & Herramientas', items: ['Docker', 'Jira', 'Trello', 'Git', 'GitHub'] },
 ]
 
-const timeline = [
-  { year: '2025', role: 'Desarrollador Backend', company: 'Baco Adventure SAS', desc: 'Transformación digital de la contratación pública en Villavicencio, Meta.' },
-]
 
 export default function About() {
   const sectionRef = useRef(null)
@@ -26,8 +23,7 @@ export default function About() {
   return (
     <section id="about" ref={sectionRef} className="section-padding relative overflow-hidden bg-dark-800/20">
       {/* Orbs */}
-      <div className="orb w-80 h-80 bg-neon-purple/10 bottom-0 left-0" />
-      <div className="orb w-64 h-64 bg-neon-cyan/8 top-0 right-1/4" />
+      <div className="orb w-64 h-64 bg-neon-purple/8 bottom-0 left-0" />
 
       <div className="max-w-7xl mx-auto">
         {/* Header */}
@@ -42,84 +38,60 @@ export default function About() {
           </h2>
         </div>
 
-        {/* Split layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-20">
-          {/* Left: Bio */}
-          <div className="space-y-6">
-            <div className="relative reveal">
-              <div className="w-32 h-32 rounded-2xl overflow-hidden border-2 border-neon-cyan/30 shadow-neon-cyan mb-8">
-                <img
-                  src="/assets/juan.png"
-                  alt="Juan José Anavitate Gómez"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
-
-            <p className="text-white/70 leading-relaxed text-lg reveal">
-              Soy <span className="text-neon-cyan font-semibold">Juan José Anavitate Gómez</span>, Ingeniero de Sistemas
-              con enfoque en el desarrollo backend. Me desenvuelvo bien en la lógica y
-              estructuración de sistemas, construyendo APIs robustas y arquitecturas limpias.
-            </p>
-            <p className="text-white/50 leading-relaxed reveal">
-              Trabajo con comodidad en Node.js, Python, PHP y Java, conectando aplicaciones a
-              bases de datos relacionales y no relacionales. Aplico prácticas de QA para
-              garantizar que lo que construyo realmente funcione.
-            </p>
-            <p className="text-white/50 leading-relaxed reveal">
-              Fuera del código soy creador de contenido, analista de datos,
-              autor publicado y compositor musical. Creo que la creatividad y la tecnología van de la mano.
-            </p>
-
-            {/* Interests */}
-            <div className="flex flex-wrap gap-2 reveal">
-              {['\uD83D\uDCDA Escritor', '\uD83C\uDFB5 Compositor', '\uD83C\uDFAC Creador de contenido', '\uD83D\uDCCA Analista de datos'].map((tag) => (
-                <span key={tag} className="px-3 py-1.5 rounded-full text-xs font-medium bg-white/5 border border-white/10 text-white/60">
-                  {tag}
-                </span>
-              ))}
-            </div>
-
-            {/* Contact brief */}
-            <div className="flex gap-4 reveal">
-              <a href="mailto:anavitateg@gmail.com" className="btn-primary text-sm">
-                Escribeme
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-              </a>
+        {/* Bio + photo */}
+        <div className="flex flex-col sm:flex-row gap-8 items-start mb-14 reveal">
+          <div className="flex-shrink-0 mx-auto sm:mx-0">
+            <div className="w-28 h-28 rounded-2xl overflow-hidden border-2 border-neon-cyan/30">
+              <img src="/assets/juan.png" alt="Juan José Anavitate Gómez" className="w-full h-full object-cover" />
             </div>
           </div>
+          <div className="space-y-3 text-center sm:text-left">
+            <p className="text-white/70 leading-relaxed">
+              Soy <span className="text-neon-cyan font-semibold">Juan José Anavitate Gómez</span>, Ingeniero de Sistemas
+              con enfoque en desarrollo backend. Me desenvuelvo bien en la lógica y estructuración
+              de sistemas, construyendo APIs robustas y arquitecturas limpias.
+            </p>
+            <p className="text-white/50 leading-relaxed text-sm">
+              Trabajo con Node.js, Python, PHP y Java conectando aplicaciones a bases de datos
+              relacionales y no relacionales. Aplico prácticas de QA para garantizar que lo que
+              construyo funcione correctamente.
+            </p>
+            <p className="text-white/50 leading-relaxed text-sm">
+              Fuera del código soy creador de contenido, analista de datos, autor publicado y
+              compositor musical.
+            </p>
+          </div>
+        </div>
 
-          {/* Right: Timeline */}
-          <div className="space-y-4">
-            <h3 className="text-sm font-semibold text-white/40 uppercase tracking-widest mb-6 reveal">Experiencia</h3>
-            {timeline.map((item, i) => (
-              <div
-                key={i}
-                className="reveal relative pl-6 border-l border-white/10 hover:border-neon-cyan/40 transition-colors duration-300 group"
-                style={{ transitionDelay: `${i * 100}ms` }}
-              >
-                <div className="absolute -left-1.5 top-0 w-3 h-3 rounded-full border-2 border-neon-purple bg-dark-900 group-hover:border-neon-cyan group-hover:shadow-neon-cyan transition-all" />
-                <div className="text-xs text-neon-cyan font-medium mb-1">{item.year}</div>
-                <div className="text-white font-semibold">{item.role}</div>
-                <div className="text-white/40 text-sm">{item.company}</div>
-                <div className="text-white/50 text-sm mt-1">{item.desc}</div>
-              </div>
-            ))}
+        {/* Interests + meta row */}
+        <div className="flex flex-wrap items-center gap-3 mb-14 reveal">
+          {['📚 Escritor', '🎵 Compositor', '🎬 Creador de contenido', '📊 Analista de datos'].map((tag) => (
+            <span key={tag} className="px-3 py-1.5 rounded-full text-xs font-medium bg-white/5 border border-white/10 text-white/60">
+              {tag}
+            </span>
+          ))}
+          <span className="px-3 py-1.5 rounded-full text-xs font-medium bg-white/5 border border-white/10 text-white/60">
+            📍 Villavicencio, Colombia
+          </span>
+        </div>
 
-            {/* Location */}
-            <div className="reveal mt-8 p-4 rounded-2xl border border-white/8 bg-white/3 flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-neon-purple/10 border border-neon-purple/20 flex items-center justify-center text-neon-purple flex-shrink-0">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" className="w-5 h-5">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
+        {/* Single experience card */}
+        <div className="mb-16 reveal">
+          <h3 className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-4">Experiencia</h3>
+          <div className="card-glass p-5 flex flex-col sm:flex-row sm:items-center gap-4">
+            <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-neon-cyan/10 border border-neon-cyan/20 flex items-center justify-center text-neon-cyan">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" className="w-5 h-5">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <div className="flex-1">
+              <div className="flex flex-wrap items-center gap-2 mb-1">
+                <span className="text-white font-semibold">Desarrollador Backend</span>
+                <span className="text-white/30 text-xs">·</span>
+                <span className="text-white/50 text-sm">Baco Adventure SAS</span>
+                <span className="ml-auto text-xs text-neon-cyan font-medium">2025</span>
               </div>
-              <div>
-                <div className="text-xs text-white/40 mb-0.5">Ubicación</div>
-                <div className="text-white/80 text-sm font-medium">Villavicencio, Meta — Colombia 🇨🇴</div>
-              </div>
+              <p className="text-white/40 text-sm">Transformación digital de la contratación pública en Villavicencio, Meta.</p>
             </div>
           </div>
         </div>
@@ -129,7 +101,7 @@ export default function About() {
           <h3 className="text-sm font-semibold text-white/40 uppercase tracking-widest mb-8 text-center reveal">
             Stack tecnológico
           </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {skills.map((group, gi) => (
               <div
                 key={group.category}

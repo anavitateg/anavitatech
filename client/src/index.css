@@ -98,12 +98,12 @@
 
   /* Cards */
   .card-glass {
-    @apply bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl
+    @apply bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl
            transition-all duration-500;
   }
   .card-glass:hover {
     @apply border-neon-cyan/30 shadow-neon-cyan;
-    transform: translateY(-8px);
+    transform: translateY(-4px);
   }
 
   /* Section */
@@ -210,6 +210,32 @@
 .orb {
   position: absolute;
   border-radius: 50%;
-  filter: blur(80px);
+  filter: blur(60px);
   pointer-events: none;
+}
+
+/* Reduce motion / mobile performance */
+@media (max-width: 767px) {
+  .orb {
+    filter: blur(40px);
+    opacity: 0.6;
+  }
+  .card-glass {
+    backdrop-filter: blur(8px) !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-float,
+  .animate-pulse-slow,
+  .animate-spin-slow,
+  .animate-bounce,
+  .cursor-blink {
+    animation: none !important;
+  }
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
 }

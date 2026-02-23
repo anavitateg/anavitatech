@@ -27,11 +27,14 @@ export default function Hero() {
     return () => clearTimeout(timeout)
   }, [displayed, deleting, roleIndex])
 
-  // Particle canvas
+  // Particle canvas — lightweight version
   useEffect(() => {
     const canvas = canvasRef.current
     const ctx = canvas.getContext('2d')
     let animId
+    // Fewer particles on mobile
+    const isMobile = window.innerWidth < 768
+    const count = isMobile ? 18 : 32
     let particles = []
 
     const resize = () => {
@@ -41,14 +44,14 @@ export default function Hero() {
     resize()
     window.addEventListener('resize', resize)
 
-    for (let i = 0; i < 80; i++) {
+    for (let i = 0; i < count; i++) {
       particles.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.4,
-        vy: (Math.random() - 0.5) * 0.4,
-        r: Math.random() * 1.5 + 0.3,
-        alpha: Math.random() * 0.6 + 0.1,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        r: Math.random() * 1.2 + 0.3,
+        alpha: Math.random() * 0.5 + 0.1,
         color: ['#00f5ff', '#a855f7', '#3b82f6'][Math.floor(Math.random() * 3)],
       })
     }
@@ -60,7 +63,6 @@ export default function Hero() {
         p.y += p.vy
         if (p.x < 0 || p.x > canvas.width) p.vx *= -1
         if (p.y < 0 || p.y > canvas.height) p.vy *= -1
-
         ctx.beginPath()
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
         ctx.fillStyle = p.color
@@ -68,21 +70,23 @@ export default function Hero() {
         ctx.fill()
       })
 
-      // Lines
-      ctx.globalAlpha = 1
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x
-          const dy = particles[i].y - particles[j].y
-          const dist = Math.sqrt(dx * dx + dy * dy)
-          if (dist < 120) {
-            ctx.beginPath()
-            ctx.strokeStyle = '#00f5ff'
-            ctx.globalAlpha = (1 - dist / 120) * 0.08
-            ctx.lineWidth = 0.5
-            ctx.moveTo(particles[i].x, particles[i].y)
-            ctx.lineTo(particles[j].x, particles[j].y)
-            ctx.stroke()
+      // Lines only on desktop
+      if (!isMobile) {
+        ctx.globalAlpha = 1
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x
+            const dy = particles[i].y - particles[j].y
+            const dist = Math.sqrt(dx * dx + dy * dy)
+            if (dist < 90) {
+              ctx.beginPath()
+              ctx.strokeStyle = '#00f5ff'
+              ctx.globalAlpha = (1 - dist / 90) * 0.06
+              ctx.lineWidth = 0.5
+              ctx.moveTo(particles[i].x, particles[i].y)
+              ctx.lineTo(particles[j].x, particles[j].y)
+              ctx.stroke()
+            }
           }
         }
       }
@@ -109,10 +113,9 @@ export default function Hero() {
       {/* Canvas particles */}
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
 
-      {/* Orbs */}
-      <div className="orb w-96 h-96 bg-neon-purple/20 top-1/4 -left-32 animate-pulse-slow" />
-      <div className="orb w-80 h-80 bg-neon-cyan/15 bottom-1/4 -right-24 animate-float" />
-      <div className="orb w-64 h-64 bg-neon-blue/15 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+      {/* Orbs — 2 only, no animation on the heavy one */}
+      <div className="orb w-72 h-72 bg-neon-purple/15 top-1/4 -left-24" />
+      <div className="orb w-64 h-64 bg-neon-cyan/10 bottom-1/4 -right-16" />
 
       {/* Content */}
       <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
@@ -168,7 +171,7 @@ export default function Hero() {
         <div className="mt-20 grid grid-cols-3 gap-4 max-w-lg mx-auto">
           {[
             { value: '1+', label: 'Año de exp.' },
-            { value: '3+', label: 'Proyectos' },
+            { value: '1', label: 'Proyecto activo' },
             { value: '10+', label: 'Tecnologías' },
           ].map(({ value, label }) => (
             <div key={label} className="text-center p-4 rounded-2xl bg-white/3 border border-white/8 backdrop-blur-sm">
