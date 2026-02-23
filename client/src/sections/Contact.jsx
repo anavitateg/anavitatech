@@ -87,14 +87,15 @@ export default function Contact() {
     setServerError('')
 
     try {
-      const res = await fetch(`${BACKEND_URL}/contact`, {
+      const formData = { name: form.name, email: form.email, message: form.message }
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify(formData),
       })
 
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}))
+      if (!response.ok) {
+        const data = await response.json().catch(() => ({}))
         throw new Error(data.message || 'Error al enviar. Inténtalo de nuevo.')
       }
 
