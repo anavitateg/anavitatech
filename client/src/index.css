@@ -234,25 +234,98 @@
   pointer-events: none;
 }
 
-/* Mobile performance */
+/* ─── Mobile: full static layout, no animations ────────── */
 @media (max-width: 767px) {
+
+  /* 1. Reveal elements are immediately visible — no fade/slide */
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  /* 2. Kill every CSS animation class used in the project */
+  .animate-fade-in,
+  .animate-slide-up,
+  .animate-pulse,
+  .animate-pulse-slow,
+  .animate-bounce,
+  .animate-spin,
+  .animate-spin-slow,
+  .animate-float {
+    animation: none !important;
+  }
+
+  /* 3. Gradient text stays gradient but no shimmer movement */
+  .gradient-text {
+    animation: none !important;
+    background-position: 0% center !important;
+  }
+
+  /* 4. Remove text-shadow glow effects */
+  .text-glow-cyan,
+  .text-glow-purple {
+    text-shadow: none !important;
+  }
+
+  /* 5. Remove all neon box-shadows — heavy on mobile compositing */
+  .shadow-neon-cyan,
+  [class*="shadow-neon"] {
+    box-shadow: none !important;
+  }
+
+  /* 6. Orbs hidden — no blur compositing at all */
   .orb {
-    filter: blur(36px);
-    opacity: 0.5;
+    display: none !important;
   }
+
+  /* 7. Grid background off — saves paint */
+  .grid-bg {
+    background-image: none !important;
+  }
+
+  /* 8. Card glass: no backdrop-filter (most expensive property on mobile) */
   .card-glass {
-    /* lighter blur on mobile GPU */
-    backdrop-filter: blur(6px) !important;
-    -webkit-backdrop-filter: blur(6px) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background-color: rgba(255, 255, 255, 0.07) !important;
+    /* Subtle left accent instead of glow border */
+    border-left: 2px solid rgba(0, 245, 255, 0.25) !important;
   }
-  /* Tighter tap targets */
+
+  /* 9. Navbar blur: simplify */
+  header[class*="backdrop-blur"] {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background-color: rgba(3, 7, 18, 0.95) !important;
+  }
+
+  /* 10. Buttons: minimum 44px tap target, no hover scale */
   .btn-primary,
   .btn-secondary {
     min-height: 44px;
-    padding-left: 1.25rem;
-    padding-right: 1.25rem;
+    transition: opacity 0.15s ease !important;
+  }
+  .btn-primary:active {
+    opacity: 0.8;
+  }
+  .btn-secondary:active {
+    opacity: 0.7;
+  }
+
+  /* 11. Section spacing tighter on small viewports */
+  .section-padding {
+    padding-top: 3.5rem !important;
+    padding-bottom: 3.5rem !important;
+  }
+
+  /* 12. Transition delays from JS inline styles don't matter since
+         reveals are already visible — harmless but explicit reset */
+  .reveal[style*="transition-delay"] {
+    transition-delay: 0ms !important;
   }
 }
+
 
 @media (prefers-reduced-motion: reduce) {
   .animate-float,
