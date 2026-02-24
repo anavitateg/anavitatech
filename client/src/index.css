@@ -31,9 +31,15 @@
     font-family: 'Space Grotesk', 'Inter', sans-serif;
     background-color: #030712;
     color: #ffffff;
-    cursor: none;
+    cursor: none;          /* overridden for touch below */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Restore default cursor on touch / mobile devices */
+  @media (pointer: coarse) {
+    body { cursor: auto; }
+    * { cursor: auto; }
   }
 
   ::selection {
@@ -101,22 +107,25 @@
     @apply bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl
            transition-all duration-500;
   }
-  .card-glass:hover {
-    @apply border-neon-cyan/30 shadow-neon-cyan;
-    transform: translateY(-4px);
+  /* Hover lift only on devices that truly support hover (not touch) */
+  @media (hover: hover) and (pointer: fine) {
+    .card-glass:hover {
+      @apply border-neon-cyan/30 shadow-neon-cyan;
+      transform: translateY(-4px);
+    }
   }
 
   /* Section */
   .section-padding {
-    @apply py-24 px-6 lg:px-16 xl:px-24;
+    @apply py-16 px-5 sm:py-20 sm:px-6 lg:px-16 xl:px-24;
   }
 
   .section-title {
-    @apply text-4xl lg:text-5xl font-bold mb-4;
+    @apply text-3xl sm:text-4xl lg:text-5xl font-bold mb-4;
   }
 
   .section-subtitle {
-    @apply text-white/50 text-lg mb-16;
+    @apply text-white/50 text-base sm:text-lg mb-10 sm:mb-16;
   }
 
   /* Glow effects */
@@ -134,8 +143,12 @@
   .tech-badge {
     @apply px-3 py-1 rounded-full text-xs font-medium border
            border-neon-purple/40 text-neon-purple/90 bg-neon-purple/10
-           transition-all duration-300 hover:border-neon-purple/80
-           hover:bg-neon-purple/20 hover:scale-110;
+           transition-all duration-300;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .tech-badge:hover {
+      @apply border-neon-purple/80 bg-neon-purple/20 scale-110;
+    }
   }
 
   /* Input */
@@ -149,12 +162,19 @@
   /* Scroll reveal */
   .reveal {
     opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
+    transform: translateY(28px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
   }
   .reveal.visible {
     opacity: 1;
     transform: translateY(0);
+  }
+  /* Less motion on small screens */
+  @media (max-width: 640px) {
+    .reveal {
+      transform: translateY(14px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
   }
 
   /* Noise overlay */
@@ -214,14 +234,23 @@
   pointer-events: none;
 }
 
-/* Reduce motion / mobile performance */
+/* Mobile performance */
 @media (max-width: 767px) {
   .orb {
-    filter: blur(40px);
-    opacity: 0.6;
+    filter: blur(36px);
+    opacity: 0.5;
   }
   .card-glass {
-    backdrop-filter: blur(8px) !important;
+    /* lighter blur on mobile GPU */
+    backdrop-filter: blur(6px) !important;
+    -webkit-backdrop-filter: blur(6px) !important;
+  }
+  /* Tighter tap targets */
+  .btn-primary,
+  .btn-secondary {
+    min-height: 44px;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
   }
 }
 

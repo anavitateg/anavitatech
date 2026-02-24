@@ -131,7 +131,7 @@ export default function Hero() {
             <img src="/assets/juan.png" alt="Juan José Anavitate Gómez" className="w-full h-full object-cover" />
           </div>
         </div>
-        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold leading-tight mb-4 tracking-tight animate-slide-up">
+        <h1 className="text-3xl sm:text-5xl lg:text-7xl font-bold leading-tight mb-4 tracking-tight animate-slide-up">
           Hola, soy{' '}
           <span className="gradient-text text-glow-cyan">Juan Anavitate</span>
         </h1>
@@ -145,7 +145,7 @@ export default function Hero() {
         </div>
 
         {/* Tagline */}
-        <p className="text-lg sm:text-xl text-white/50 max-w-2xl mx-auto mb-12 leading-relaxed animate-fade-in">
+        <p className="text-base sm:text-xl text-white/50 max-w-2xl mx-auto mb-10 sm:mb-12 leading-relaxed animate-fade-in">
           Ingeniero de Sistemas especializado en backend, QA y análisis de datos.
           <br className="hidden sm:block" />
           Construyo lógica sólida, sistemas confiables y soluciones que escalan.
@@ -168,14 +168,14 @@ export default function Hero() {
         </div>
 
         {/* Stats */}
-        <div className="mt-20 grid grid-cols-3 gap-4 max-w-lg mx-auto">
+        <div className="mt-12 sm:mt-20 grid grid-cols-3 gap-3 sm:gap-4 max-w-md sm:max-w-lg mx-auto">
           {[
             { value: '1+', label: 'Año de exp.' },
             { value: '1', label: 'Proyecto activo' },
             { value: '10+', label: 'Tecnologías' },
           ].map(({ value, label }) => (
-            <div key={label} className="text-center p-4 rounded-2xl bg-white/3 border border-white/8 backdrop-blur-sm">
-              <div className="text-2xl font-bold gradient-text">{value}</div>
+            <div key={label} className="text-center p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-white/3 border border-white/8 backdrop-blur-sm">
+              <div className="text-xl sm:text-2xl font-bold gradient-text">{value}</div>
               <div className="text-xs text-white/40 mt-1">{label}</div>
             </div>
           ))}

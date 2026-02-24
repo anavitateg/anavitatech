@@ -1,12 +1,18 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export default function CustomCursor() {
+  // Only run on devices with a precise pointer (mouse). Hides on touch / mobile.
+  const [enabled] = useState(() =>
+    typeof window !== 'undefined' && window.matchMedia('(pointer: fine)').matches
+  )
+
   const cursorRef = useRef(null)
   const dotRef = useRef(null)
   const posRef = useRef({ x: 0, y: 0 })
   const dotPosRef = useRef({ x: 0, y: 0 })
 
   useEffect(() => {
+    if (!enabled) return
     const cursor = cursorRef.current
     const dot = dotRef.current
 
@@ -38,6 +44,8 @@ export default function CustomCursor() {
       window.removeEventListener('mousemove', onMove)
     }
   }, [])
+
+  if (!enabled) return null
 
   return (
     <>

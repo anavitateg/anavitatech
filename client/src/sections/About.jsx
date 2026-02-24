@@ -101,7 +101,7 @@ export default function About() {
           <h3 className="text-sm font-semibold text-white/40 uppercase tracking-widest mb-8 text-center reveal">
             Stack tecnológico
           </h3>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {skills.map((group, gi) => (
               <div
                 key={group.category}
