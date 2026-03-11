@@ -1,10 +1,10 @@
-@tailwind base;
+﻿@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ─── Base ─────────────────────────────────────────────── */
+/*  Base  */
 @layer base {
-  * {
+  *, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -13,331 +13,170 @@
   html {
     scroll-behavior: smooth;
     scrollbar-width: thin;
-    scrollbar-color: #a855f7 #0a0f1e;
+    scrollbar-color: #0EA5E9 #E2E8F0;
   }
 
-  html::-webkit-scrollbar {
-    width: 6px;
-  }
-  html::-webkit-scrollbar-track {
-    background: #0a0f1e;
-  }
-  html::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #a855f7, #00f5ff);
-    border-radius: 3px;
-  }
+  html::-webkit-scrollbar        { width: 5px; }
+  html::-webkit-scrollbar-track  { background: #F1F5F9; }
+  html::-webkit-scrollbar-thumb  { background: #0EA5E9; border-radius: 3px; }
 
   body {
-    font-family: 'Space Grotesk', 'Inter', sans-serif;
-    background-color: #030712;
-    color: #ffffff;
-    cursor: none;          /* overridden for touch below */
+    font-family: 'Inter', system-ui, sans-serif;
+    background-color: #F8FAFC;
+    color: #0F172A;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    cursor: auto;
   }
 
-  /* Restore default cursor on touch / mobile devices */
-  @media (pointer: coarse) {
-    body { cursor: auto; }
-    * { cursor: auto; }
+  .dark body {
+    background-color: #030712;
+    color: #f1f5f9;
   }
 
   ::selection {
-    background: rgba(168, 85, 247, 0.4);
-    color: #ffffff;
+    background: rgba(14, 165, 233, 0.18);
+    color: #0F172A;
   }
 }
 
-/* ─── Components ────────────────────────────────────────── */
+/*  Components  */
 @layer components {
 
-  /* Gradients */
-  .gradient-text {
-    @apply bg-gradient-to-r from-neon-cyan via-neon-purple to-neon-blue bg-clip-text text-transparent;
-    background-size: 200% auto;
-    animation: textShimmer 4s linear infinite;
+  .page-container {
+    @apply max-w-6xl mx-auto px-5 sm:px-8;
   }
 
-  .gradient-border {
-    position: relative;
-  }
-  .gradient-border::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    padding: 1px;
-    background: linear-gradient(135deg, #00f5ff, #a855f7, #3b82f6);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
+  .section-gap {
+    @apply py-20 sm:py-28;
   }
 
-  /* Buttons */
-  .btn-primary {
-    @apply relative inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-sm
-           bg-gradient-to-r from-neon-cyan to-neon-purple text-dark-900
-           transition-all duration-300 hover:scale-105 hover:shadow-neon-cyan
-           focus:outline-none focus:ring-2 focus:ring-neon-cyan focus:ring-offset-2 focus:ring-offset-dark-900;
-    overflow: hidden;
-  }
-  .btn-primary::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-  .btn-primary:hover::before {
-    opacity: 1;
+  .section-eyebrow {
+    @apply inline-flex items-center gap-2 text-xs font-semibold tracking-widest uppercase
+           text-brand-cyan bg-brand-cyan-light px-3 py-1.5 rounded-full mb-4;
   }
 
-  .btn-secondary {
-    @apply inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-sm
-           border border-white/20 text-white/80 backdrop-blur-sm
-           transition-all duration-300 hover:border-neon-cyan/60 hover:text-neon-cyan
-           hover:shadow-neon-cyan hover:scale-105
-           focus:outline-none focus:ring-2 focus:ring-neon-cyan focus:ring-offset-2 focus:ring-offset-dark-900;
+  .section-heading {
+    @apply text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-ink-primary leading-tight;
   }
 
-  /* Cards */
-  .card-glass {
-    @apply bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl
-           transition-all duration-500;
-  }
-  /* Hover lift only on devices that truly support hover (not touch) */
-  @media (hover: hover) and (pointer: fine) {
-    .card-glass:hover {
-      @apply border-neon-cyan/30 shadow-neon-cyan;
-      transform: translateY(-4px);
-    }
+  .section-sub {
+    @apply text-ink-secondary text-lg leading-relaxed mt-4 max-w-2xl;
   }
 
-  /* Section */
-  .section-padding {
-    @apply py-16 px-5 sm:py-20 sm:px-6 lg:px-16 xl:px-24;
+  .card {
+    @apply bg-surface-card rounded-3xl border border-surface-border shadow-card
+           transition-shadow duration-300;
   }
 
-  .section-title {
-    @apply text-3xl sm:text-4xl lg:text-5xl font-bold mb-4;
+  .card-accent-cyan   { @apply border-t-4 border-t-brand-cyan; }
+  .card-accent-yellow { @apply border-t-4 border-t-brand-yellow; }
+  .card-accent-red    { @apply border-t-4 border-t-brand-red; }
+  .card-accent-green  { @apply border-t-4 border-t-brand-green; }
+  .card-accent-blue   { @apply border-t-4 border-t-brand-blue; }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full font-semibold
+           text-sm px-6 py-3 transition-all duration-200
+           focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2
+           focus-visible:outline-brand-cyan;
+    min-height: 44px;
   }
 
-  .section-subtitle {
-    @apply text-white/50 text-base sm:text-lg mb-10 sm:mb-16;
-  }
+  .btn-primary     { @apply btn bg-brand-cyan text-white hover:bg-brand-cyan-dark active:scale-95 shadow-cyan; }
+  .btn-secondary   { @apply btn bg-surface-muted text-ink-primary border border-surface-border hover:bg-surface-border active:scale-95; }
+  .btn-outline     { @apply btn border-2 border-brand-cyan text-brand-cyan bg-transparent hover:bg-brand-cyan hover:text-white active:scale-95; }
+  .btn-yellow      { @apply btn bg-brand-yellow text-white hover:bg-brand-yellow-dark active:scale-95 shadow-yellow; }
+  .btn-ghost       { @apply btn text-ink-secondary hover:text-brand-cyan hover:bg-brand-cyan-light active:scale-95; }
 
-  /* Glow effects */
-  .glow-cyan {
-    box-shadow: 0 0 30px rgba(0, 245, 255, 0.3);
-  }
-  .glow-purple {
-    box-shadow: 0 0 30px rgba(168, 85, 247, 0.3);
-  }
-  .glow-blue {
-    box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
-  }
+  .pill         { @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold; }
+  .pill-cyan    { @apply pill bg-brand-cyan-light  text-brand-cyan-dark; }
+  .pill-yellow  { @apply pill bg-brand-yellow-light text-brand-yellow-dark; }
+  .pill-green   { @apply pill bg-brand-green-light  text-green-700; }
+  .pill-red     { @apply pill bg-brand-red-light    text-red-700; }
+  .pill-blue    { @apply pill bg-brand-blue-light   text-blue-700; }
+  .pill-gray    { @apply pill bg-surface-muted border border-surface-border text-ink-secondary; }
 
-  /* Badge */
-  .tech-badge {
-    @apply px-3 py-1 rounded-full text-xs font-medium border
-           border-neon-purple/40 text-neon-purple/90 bg-neon-purple/10
-           transition-all duration-300;
-  }
-  @media (hover: hover) and (pointer: fine) {
-    .tech-badge:hover {
-      @apply border-neon-purple/80 bg-neon-purple/20 scale-110;
-    }
-  }
+  .form-label { @apply block text-xs font-semibold text-ink-secondary uppercase tracking-widest mb-1.5; }
 
-  /* Input */
   .form-input {
-    @apply w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3
-           text-white placeholder-white/30 outline-none
-           transition-all duration-300
-           focus:border-neon-cyan/60 focus:bg-white/10 focus:shadow-neon-cyan;
+    @apply w-full bg-surface-muted border border-surface-border rounded-2xl px-4 py-3
+           text-ink-primary placeholder-ink-tertiary outline-none text-sm
+           transition-all duration-200
+           focus:border-brand-cyan focus:ring-2 focus:ring-brand-cyan/20 focus:bg-white;
   }
 
-  /* Scroll reveal */
-  .reveal {
-    opacity: 0;
-    transform: translateY(28px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-  }
-  .reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  /* Less motion on small screens */
-  @media (max-width: 640px) {
-    .reveal {
-      transform: translateY(14px);
-      transition: opacity 0.5s ease, transform 0.5s ease;
-    }
+  .form-input-error { @apply border-brand-red focus:border-brand-red focus:ring-brand-red/20; }
+
+  .skill-tag {
+    @apply px-3 py-1.5 rounded-xl text-xs font-medium bg-surface-muted
+           border border-surface-border text-ink-secondary transition-colors duration-150;
   }
 
-  /* Noise overlay */
-  .noise::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    opacity: 0.4;
+  .contact-link {
+    @apply flex items-center gap-4 p-4 rounded-2xl border border-surface-border bg-surface-card
+           text-ink-secondary transition-all duration-200 shadow-card;
+  }
+
+  .ai-badge {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold
+           bg-gradient-to-r from-brand-cyan to-brand-blue text-white;
   }
 }
 
-/* ─── Utilities ─────────────────────────────────────────── */
+/*  Utilities  */
 @layer utilities {
-  .bg-size-300 {
-    background-size: 300% 300%;
+  .text-balance { text-wrap: balance; }
+  .bg-dot-pattern {
+    background-image: radial-gradient(#CBD5E1 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+  .bg-grid-pattern {
+    background-image:
+      linear-gradient(rgba(14,165,233,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(14,165,233,0.06) 1px, transparent 1px);
+    background-size: 40px 40px;
   }
 
-  .text-glow-cyan {
-    text-shadow: 0 0 20px rgba(0, 245, 255, 0.8);
+  /* Section backgrounds */
+  .bg-section-projects {
+    background-color: #F0F9FF;
+    background-image:
+      radial-gradient(#BAE6FD 1px, transparent 1px);
+    background-size: 28px 28px;
   }
 
-  .text-glow-purple {
-    text-shadow: 0 0 20px rgba(168, 85, 247, 0.8);
+  .bg-section-about {
+    background: linear-gradient(150deg, #FFFBEB 0%, #F1F5F9 55%, #EFF6FF 100%);
+  }
+
+  .bg-section-contact {
+    background: linear-gradient(150deg, #F0F9FF 0%, #EFF6FF 50%, #F0FDF4 100%);
   }
 }
 
-/* ─── Keyframes ───────────────────────────────────────────── */
-@keyframes textShimmer {
-  0% { background-position: 0% center; }
-  100% { background-position: 200% center; }
-}
-
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-
-.cursor-blink {
-  animation: blink 1s step-end infinite;
-}
-
-/* Animated grid background */
-.grid-bg {
-  background-image:
-    linear-gradient(rgba(0, 245, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 245, 255, 0.03) 1px, transparent 1px);
-  background-size: 60px 60px;
-}
-
-/* Orb blur effects */
-.orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(60px);
+/*  Scroll progress  */
+#scroll-progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #0EA5E9, #F59E0B);
+  z-index: 9999;
+  border-radius: 0 2px 2px 0;
+  transition: width 0.1s linear;
   pointer-events: none;
 }
 
-/* ─── Mobile: full static layout, no animations ────────── */
+/*  Hover guards  */
+@media (hover: hover) and (pointer: fine) {
+  .card:hover        { box-shadow: 0 4px 12px rgba(0,0,0,0.08), 0 16px 40px rgba(0,0,0,0.10); }
+  .skill-tag:hover   { @apply bg-brand-cyan-light text-brand-cyan-dark border-brand-cyan/40; }
+  .contact-link:hover { box-shadow: 0 4px 24px rgba(14,165,233,0.20); border-color: #0EA5E9; color: #0EA5E9; }
+}
+
+/*  Mobile  */
 @media (max-width: 767px) {
-
-  /* 1. Reveal elements are immediately visible — no fade/slide */
-  .reveal {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
-  }
-
-  /* 2. Kill every CSS animation class used in the project */
-  .animate-fade-in,
-  .animate-slide-up,
-  .animate-pulse,
-  .animate-pulse-slow,
-  .animate-bounce,
-  .animate-spin,
-  .animate-spin-slow,
-  .animate-float {
-    animation: none !important;
-  }
-
-  /* 3. Gradient text stays gradient but no shimmer movement */
-  .gradient-text {
-    animation: none !important;
-    background-position: 0% center !important;
-  }
-
-  /* 4. Remove text-shadow glow effects */
-  .text-glow-cyan,
-  .text-glow-purple {
-    text-shadow: none !important;
-  }
-
-  /* 5. Remove all neon box-shadows — heavy on mobile compositing */
-  .shadow-neon-cyan,
-  [class*="shadow-neon"] {
-    box-shadow: none !important;
-  }
-
-  /* 6. Orbs hidden — no blur compositing at all */
-  .orb {
-    display: none !important;
-  }
-
-  /* 7. Grid background off — saves paint */
-  .grid-bg {
-    background-image: none !important;
-  }
-
-  /* 8. Card glass: no backdrop-filter (most expensive property on mobile) */
-  .card-glass {
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    background-color: rgba(255, 255, 255, 0.07) !important;
-    /* Subtle left accent instead of glow border */
-    border-left: 2px solid rgba(0, 245, 255, 0.25) !important;
-  }
-
-  /* 9. Navbar blur: simplify */
-  header[class*="backdrop-blur"] {
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    background-color: rgba(3, 7, 18, 0.95) !important;
-  }
-
-  /* 10. Buttons: minimum 44px tap target, no hover scale */
-  .btn-primary,
-  .btn-secondary {
-    min-height: 44px;
-    transition: opacity 0.15s ease !important;
-  }
-  .btn-primary:active {
-    opacity: 0.8;
-  }
-  .btn-secondary:active {
-    opacity: 0.7;
-  }
-
-  /* 11. Section spacing tighter on small viewports */
-  .section-padding {
-    padding-top: 3.5rem !important;
-    padding-bottom: 3.5rem !important;
-  }
-
-  /* 12. Transition delays from JS inline styles don't matter since
-         reveals are already visible — harmless but explicit reset */
-  .reveal[style*="transition-delay"] {
-    transition-delay: 0ms !important;
-  }
+  .section-gap { padding-top: 3.5rem !important; padding-bottom: 3.5rem !important; }
 }
 
 
-@media (prefers-reduced-motion: reduce) {
-  .animate-float,
-  .animate-pulse-slow,
-  .animate-spin-slow,
-  .animate-bounce,
-  .cursor-blink {
-    animation: none !important;
-  }
-  .reveal {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
-  }
-}

@@ -1,118 +1,123 @@
-import { useState, useEffect } from 'react'
+﻿import { useState } from 'react'
 
-const links = [
-  { label: 'Inicio', href: '#hero' },
-  { label: 'Proyectos', href: '#projects' },
-  { label: 'Sobre mí', href: '#about' },
-  { label: 'Contacto', href: '#contact' },
-]
-
-export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false)
+export default function Navbar({ currentSection, goToSection }) {
   const [menuOpen, setMenuOpen] = useState(false)
-  const [active, setActive] = useState('hero')
+  const [dark, setDark] = useState(() => document.documentElement.classList.contains('dark'))
 
-  useEffect(() => {
-    const onScroll = () => {
-      setScrolled(window.scrollY > 30)
-      const sections = ['hero', 'projects', 'about', 'contact']
-      for (const id of sections) {
-        const el = document.getElementById(id)
-        if (el) {
-          const rect = el.getBoundingClientRect()
-          if (rect.top <= 100 && rect.bottom >= 100) {
-            setActive(id)
-            break
-          }
-        }
-      }
-    }
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
-
-  const scrollTo = (href) => {
-    const id = href.replace('#', '')
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
-    setMenuOpen(false)
+  const toggleDark = () => {
+    const next = !dark
+    if (next) { document.documentElement.classList.add('dark'); localStorage.setItem('theme', 'dark') }
+    else { document.documentElement.classList.remove('dark'); localStorage.setItem('theme', 'light') }
+    setDark(next)
   }
 
+  const navigate = (idx) => { goToSection(idx); setMenuOpen(false) }
+
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? 'bg-dark-900/80 backdrop-blur-xl border-b border-white/5 shadow-[0_4px_32px_rgba(0,0,0,0.4)]'
-          : 'bg-transparent'
-      }`}
-    >
-      <nav className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-        {/* Logo */}
+    <>
+      {/* ── MOBILE HEADER ───────────────────────────────── */}
+      <header className="lg:hidden fixed top-0 inset-x-0 z-50 flex items-center justify-between px-4 h-14 bg-slate-950 dark:bg-slate-900 shadow-xl transition-colors duration-300">
+        {/* Hamburger */}
         <button
-          onClick={() => scrollTo('#hero')}
-          className="text-lg font-bold tracking-tight gradient-text"
+          onClick={() => setMenuOpen(v => !v)}
+          aria-label="Menú"
+          className="w-10 h-10 flex flex-col items-center justify-center gap-[5px] flex-shrink-0"
         >
-          <span className="text-lg font-bold tracking-tight"><span className="gradient-text">Anavita</span><span className="text-white">TECH</span></span>
+          <span className={`block w-5 h-0.5 bg-white origin-center transition-all duration-200 ${menuOpen ? 'rotate-45 translate-y-[7px]' : ''}`} />
+          <span className={`block w-5 h-0.5 bg-white transition-all duration-200 ${menuOpen ? 'opacity-0' : ''}`} />
+          <span className={`block w-5 h-0.5 bg-white origin-center transition-all duration-200 ${menuOpen ? '-rotate-45 -translate-y-[7px]' : ''}`} />
         </button>
 
-        {/* Desktop Links */}
-        <ul className="hidden md:flex items-center gap-8">
-          {links.map(({ label, href }) => (
-            <li key={href}>
+        {/* Logo center */}
+        <button onClick={() => navigate(0)} className="flex items-center gap-2">
+          <span className="w-7 h-7 rounded-lg bg-sky-500 flex items-center justify-center text-white text-xs font-black">JJ</span>
+          <span className="text-sm font-bold tracking-tight text-white">Anavita<span className="text-sky-400">TECH</span></span>
+        </button>
+
+        {/* Theme toggle right */}
+        <button
+          onClick={toggleDark}
+          aria-label={dark ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
+          className={`w-10 h-10 rounded-full flex items-center justify-center transition-all flex-shrink-0 ${
+            dark ? 'bg-white text-yellow-400' : 'bg-slate-800 text-yellow-300 border border-slate-700'
+          }`}
+        >
+          {dark ? (
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm0 16a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zm10-7a1 1 0 110 2h-1a1 1 0 110-2h1zM3 11a1 1 0 110 2H2a1 1 0 110-2h1zm15.07-6.07a1 1 0 010 1.414l-.707.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM7.05 16.95a1 1 0 010 1.414l-.707.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zm11.314 0a1 1 0 011.414 1.414l-.707.707a1 1 0 01-1.414-1.414l.707-.707zM5.636 5.636a1 1 0 011.414 1.414l-.707.707A1 1 0 014.93 6.343l.707-.707zM12 6a6 6 0 110 12A6 6 0 0112 6z"/>
+            </svg>
+          ) : (
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+          )}
+        </button>
+      </header>
+
+      {/* ── MOBILE DROPDOWN ─────────────────────────────── */}
+      {menuOpen && (
+        <div className="lg:hidden fixed top-14 inset-x-0 z-40 bg-slate-950 dark:bg-slate-900 border-t border-slate-800 dark:border-slate-700 shadow-2xl transition-colors duration-300">
+          {/* Brand row */}
+          <div className="flex items-center gap-3 px-6 py-4 border-b border-slate-800 dark:border-slate-700">
+            <span className="w-9 h-9 rounded-xl bg-sky-500 flex items-center justify-center text-white text-sm font-black">JJ</span>
+            <div>
+              <p className="text-white font-bold text-sm leading-tight">Anavita<span className="text-sky-400">TECH</span></p>
+              <p className="text-white/40 text-xs">Portafolio de Juan Anavitate</p>
+            </div>
+          </div>
+          {/* Links */}
+          <div className="flex flex-col py-2">
+            {[
+              { label: 'Inicio', idx: 0 },
+              { label: 'Sobre mí', idx: 1 },
+              { label: 'Proyectos', idx: 2 },
+              { label: 'Contacto', idx: 3 },
+            ].map(({ label, idx }) => (
               <button
-                onClick={() => scrollTo(href)}
-                className={`text-sm font-medium transition-all duration-300 relative group ${
-                  active === href.replace('#', '')
-                    ? 'text-neon-cyan'
-                    : 'text-white/60 hover:text-white'
+                key={label}
+                onClick={() => navigate(idx)}
+                className={`px-6 py-3.5 text-left text-sm font-semibold transition-colors ${
+                  currentSection === idx
+                    ? 'text-sky-400 bg-sky-500/10'
+                    : 'text-white/70 hover:text-white hover:bg-slate-800 dark:hover:bg-slate-800'
                 }`}
               >
                 {label}
-                <span
-                  className={`absolute -bottom-1 left-0 h-px bg-gradient-to-r from-neon-cyan to-neon-purple transition-all duration-300 ${
-                    active === href.replace('#', '') ? 'w-full' : 'w-0 group-hover:w-full'
-                  }`}
-                />
               </button>
-            </li>
-          ))}
-        </ul>
-
-        {/* CTA */}
-        <div className="hidden md:flex">
-          <button onClick={() => scrollTo('#contact')} className="btn-primary text-sm">
-            Hablemos
-          </button>
+            ))}
+          </div>
         </div>
+      )}
+      {/* Backdrop */}
+      {menuOpen && (
+        <div className="lg:hidden fixed inset-0 z-30" onClick={() => setMenuOpen(false)} />
+      )}
 
-        {/* Mobile Hamburger */}
-        <button
-          className="md:hidden flex flex-col gap-1.5 p-2"
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Toggle menu"
-        >
-          <span className={`block w-6 h-0.5 bg-white transition-all duration-300 ${menuOpen ? 'rotate-45 translate-y-2' : ''}`} />
-          <span className={`block w-6 h-0.5 bg-white transition-all duration-300 ${menuOpen ? 'opacity-0' : ''}`} />
-          <span className={`block w-6 h-0.5 bg-white transition-all duration-300 ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
-        </button>
-      </nav>
-
-      {/* Mobile Menu */}
-      <div className={`md:hidden overflow-hidden transition-all duration-500 ${menuOpen ? 'max-h-80' : 'max-h-0'}`}>
-        <div className="bg-dark-800/95 backdrop-blur-xl border-b border-white/5 px-6 py-4 flex flex-col gap-4">
-          {links.map(({ label, href }) => (
-            <button
-              key={href}
-              onClick={() => scrollTo(href)}
-              className="text-white/70 hover:text-neon-cyan transition-colors text-left font-medium"
-            >
-              {label}
-            </button>
-          ))}
-          <button onClick={() => scrollTo('#contact')} className="btn-primary mt-2 w-full justify-center">
-            Hablemos
+      {/* ── DESKTOP HEADER ──────────────────────────────── */}
+      <header className="hidden lg:flex fixed top-0 inset-x-0 z-50 justify-center pointer-events-none">
+        <nav className="pointer-events-auto flex items-center gap-6 bg-slate-950 dark:bg-slate-800 rounded-b-2xl px-6 h-12 shadow-xl w-fit transition-colors duration-300">
+          <button
+            onClick={() => goToSection(2)}
+            className={`text-sm font-semibold transition-colors duration-200 ${
+              currentSection === 2 ? 'text-sky-400' : 'text-white/60 hover:text-white'
+            }`}
+          >
+            Proyectos
           </button>
-        </div>
-      </div>
-    </header>
+          <button onClick={() => goToSection(0)} className="flex items-center gap-2 group">
+            <span className="w-7 h-7 rounded-lg bg-sky-500 flex items-center justify-center text-white text-xs font-black group-hover:bg-sky-400 transition-colors">JJ</span>
+            <span className="text-sm font-bold tracking-tight text-white">Anavita<span className="text-sky-400">TECH</span></span>
+          </button>
+          <button
+            onClick={() => goToSection(1)}
+            className={`text-sm font-semibold transition-colors duration-200 ${
+              currentSection === 1 ? 'text-sky-400' : 'text-white/60 hover:text-white'
+            }`}
+          >
+            Sobre mí
+          </button>
+        </nav>
+      </header>
+    </>
   )
 }

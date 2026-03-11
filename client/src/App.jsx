@@ -1,26 +1,19 @@
-import Navbar from './components/Navbar'
-import Hero from './sections/Hero'
-import Projects from './sections/Projects'
-import About from './sections/About'
-import Contact from './sections/Contact'
-import Footer from './components/Footer'
-import CustomCursor from './components/CustomCursor'
-import ScrollProgress from './components/ScrollProgress'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Home from './pages/Home'
+import ProjectDetail from './pages/ProjectDetail'
+import AboutPage from './pages/AboutPage'
 
 function App() {
   return (
-    <div className="bg-dark-900 text-white min-h-screen font-sans overflow-x-hidden">
-      <CustomCursor />
-      <ScrollProgress />
-      <Navbar />
-      <main>
-        <Hero />
-        <Projects />
-        <About />
-        <Contact />
-      </main>
-      <Footer />
-    </div>
+    <BrowserRouter>
+      <div className="min-h-screen bg-slate-50 dark:bg-slate-950 font-sans overflow-x-hidden transition-colors duration-300">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/projects/:slug" element={<ProjectDetail />} />
+          <Route path="/about" element={<AboutPage />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   )
 }
 
