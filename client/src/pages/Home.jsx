@@ -8,21 +8,24 @@ const PROJECTS = [
   {
     slug: 'unimetadocs',
     name: 'UnimetaDocs',
-    tagline: 'Gestión administrativa universitaria centralizada',
-    descriptionShort: 'Plataforma que centraliza la información administrativa de instituciones universitarias con análisis de datos y reportes automáticos.',
+    tagline: 'Sistema institucional de gestión docente, análisis de datos y generación de documentos',
+    descriptionShort: 'Plataforma institucional para la Corporación Universitaria del Meta que digitaliza la gestión docente, análisis de datos académicos y exportación de documentos a PDF, DOCX y XLSX.',
     descriptionFull: [
-      'UnimetaDocs es una plataforma web que centraliza y digitaliza la gestión de información administrativa de instituciones universitarias. Permite organizar, analizar y consultar datos académicos e institucionales desde un único panel de control.',
-      'El sistema incorpora herramientas de análisis de datos con visualizaciones, generación automática de informes y reportes en PDF, y un control de acceso granular por roles y dependencias institucionales.',
+      'UnimetaDocs es una plataforma web institucional desarrollada para la Corporación Universitaria del Meta (Unimeta). Centraliza y digitaliza la gestión del cuerpo docente, facilitando el análisis de datos académicos y la generación de documentos formales con exportación directa a PDF, DOCX y XLSX.',
+      'Cuenta con un motor de análisis visual interactivo (Analyzer) con pipelines configurables por pasos, y un Generador de Documentos paso a paso que resuelve tokens de métricas del Analyzer en tiempo de exportación.',
     ],
     features: [
-      'Centralización de información académica y administrativa',
-      'Herramientas de análisis y visualización de datos institucionales',
-      'Generación automática de informes y reportes en PDF',
-      'Control de acceso por roles y dependencias',
-      'Panel de administración unificado',
-      'Historial de actividad y trazabilidad de cambios',
+      'Gestión completa de docentes con importación masiva via JSON',
+      'Motor de análisis visual (Analyzer) con pipelines de 6 pasos',
+      'Generador de informes y reportes exportables a PDF, DOCX y XLSX',
+      'Plantillas automáticas que consultan datos en tiempo real',
+      'Control de acceso por roles: WEBMASTER y ADMINISTRATIVO',
+      'Sistema completo de auditoría con logs cronológicos',
+      'Dark mode completo en toda la interfaz',
+      'Despliegue con Docker Compose',
     ],
-    tech: ['NestJS', 'Next.js', 'PostgreSQL', 'TypeScript', 'Prisma ORM'],
+    tech: ['NestJS', 'Next.js 14', 'PostgreSQL 16', 'TypeScript', 'Prisma ORM', 'Zustand', 'Recharts', 'Docker'],
+    demoUrl: 'https://unimetadocs.onrender.com',
     nodeColor: '#F59E0B',
     overlay: 'linear-gradient(150deg,rgba(120,53,15,0.88) 0%,rgba(127,29,29,0.78) 55%,rgba(2,6,23,0.97) 100%)',
     badgeBg: 'rgba(245,158,11,0.18)',
@@ -56,6 +59,7 @@ const PROJECTS = [
     badgeText: '#7DD3FC',
     badgeBorder: 'rgba(56,189,248,0.35)',
     btnBg: '#0284C7',
+    demoUrl: null,
     status: 'En desarrollo',
     image: 'https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=1200&auto=format&fit=crop&q=70',
   },
@@ -318,13 +322,25 @@ function FullSlider() {
               Conocer más
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7"/></svg>
             </Link>
-            <button
-              disabled
-              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-medium bg-white/[0.07] text-white/30 border border-white/10 cursor-not-allowed whitespace-nowrap"
-            >
-              Ver demo
-              <span className="text-[9px] text-white/20 hidden sm:inline">Próximamente</span>
-            </button>
+            {proj.demoUrl ? (
+              <a
+                href={proj.demoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-semibold text-white shadow-lg transition-all active:scale-95 whitespace-nowrap border border-white/20 bg-white/10 hover:bg-white/20"
+              >
+                Ver demo
+                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+              </a>
+            ) : (
+              <button
+                disabled
+                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-medium bg-white/[0.07] text-white/30 border border-white/10 cursor-not-allowed whitespace-nowrap"
+              >
+                Ver demo
+                <span className="text-[9px] text-white/20 hidden sm:inline">Próximamente</span>
+              </button>
+            )}
           </div>
           <div className="flex gap-2 flex-shrink-0">
             <button
